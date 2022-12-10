@@ -1,5 +1,5 @@
 import pygame
-from game.config import screenWidth, gravity, terminalVelocity
+from game.config import screenWidth, gravity, terminalVelocity, scrollThreshold
 
 class Player():
   width = 20
@@ -9,7 +9,7 @@ class Player():
   ySpeed = 0
   
   airtime = 0
-  jumpPower = 350
+  jumpPower = 400
     
   isFalling = False
   isJumping = False
@@ -66,5 +66,11 @@ class Player():
     else:
       self.airtime = self.ySpeed = 0
       
-    self.position.y += self.ySpeed * delta
+    scroll = 0
       
+    if self.position.y <= scrollThreshold and self.ySpeed < 0:
+      scroll = -self.ySpeed * delta
+      
+    self.position.y += self.ySpeed * delta + scroll
+      
+    return scroll
