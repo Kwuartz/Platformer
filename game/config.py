@@ -1,3 +1,4 @@
-screenSize = screenWidth, screenHeight = 800, 600
-gravity = 9.8
+screenSize = screenWidth, screenHeight = 400, 800
+gravity = 12
 terminalVelocity = gravity * 50
+maxPlatforms = 10

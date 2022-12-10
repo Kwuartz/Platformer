@@ -5,11 +5,11 @@ class Player():
   width = 20
   height = 31
   
-  walkSpeed = 100
+  walkSpeed = 150
   ySpeed = 0
   
-  falltime = 0
-  jumpPower = 250
+  airtime = 0
+  jumpPower = 350
     
   isFalling = False
   isJumping = False
@@ -31,29 +31,40 @@ class Player():
       self.direction = 1
     else:
       self.direction = 0
-
+      
+    # Jumping
     if keys[pygame.K_SPACE]:
       if self.isFalling == False and self.isJumping == False:
         self.isJumping = True
         self.ySpeed = -self.jumpPower
-
+        
+    # Checking for edge of screen
     if not (self.position.x < 0 and self.direction == -1) and not (self.position.x > screenWidth and self.direction == 1):
       self.position.x += self.direction * self.walkSpeed * delta
-      
+    
+    # Moving with the platform they stand on
     if self.platform:
       self.position.x += self.platform.speed * self.platform.direction * delta
 
-    if self.isFalling:
-      self.falltime += delta
-      if self.ySpeed < terminalVelocity:
-        self.ySpeed += self.falltime * gravity
-    elif self.isJumping:
-      self.ySpeed -= gravity * delta
+    if self.isFalling: 
+      self.airtime += delta
       
-      if self.ySpeed < 0:
+      # Fall faster when they start falling
+      if self.airtime < 0.5:
+        self.ySpeed += gravity
+      
+      if self.ySpeed < terminalVelocity:
+        self.ySpeed += self.airtime * gravity
+        
+    elif self.isJumping:
+      self.airtime += delta
+      self.ySpeed += self.airtime * gravity
+      
+      if self.ySpeed > 0:
         self.isJumping = False
+        self.airtime = 0
     else:
-      self.falltime = self.ySpeed = 0
+      self.airtime = self.ySpeed = 0
       
     self.position.y += self.ySpeed * delta
       
