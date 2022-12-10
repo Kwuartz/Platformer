@@ -2,9 +2,9 @@ import pygame
 from game.config import screenWidth
 
 class Platform():
-  thickness = 6
+  thickness = 8
   
-  def __init__(self, x, width, y, moving, distance = 0, direction = 0, speed = 0):
+  def __init__(self, x, width, y, moving, distance, speed):
     self.x1 = x
     self.x2 = x + width
     self.y = y
@@ -12,12 +12,9 @@ class Platform():
     self.moving = moving
     self.speed = speed
     self.initialDistance = distance
-    self.direction = direction
+    self.direction = 1
     
-    if self.direction == -1:
-      self.distance = distance
-    else:
-      self.distance = 0
+    self.distance = 0
     
   def update(self, delta, scroll):
     if self.moving:

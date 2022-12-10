@@ -5,7 +5,7 @@ class Player():
   width = 20
   height = 31
   
-  walkSpeed = 150
+  walkSpeed = 225
   ySpeed = 0
   
   airtime = 0
